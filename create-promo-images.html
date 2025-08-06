@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chrome Web Store Promotional Images Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .promo-container {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        .download-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .download-btn:hover {
+            background: #45a049;
+        }
+        .instructions {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Chrome Web Store Promotional Images Generator</h1>
+        <p>Generate promotional images for your Chrome Web Store listing:</p>
+        
+        <div class="promo-container">
+            <canvas id="smallPromo" width="440" height="280"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadPromo('small')">Download Small Promo (440x280)</button>
+        </div>
+        
+        <div class="promo-container">
+            <canvas id="largePromo" width="920" height="680"></canvas>
+            <br>
+            <button class="download-btn" onclick="downloadPromo('large')">Download Large Promo (920x680)</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to Use These Images:</h3>
+            <ol>
+                <li>Download both promotional images</li>
+                <li>Upload them to Chrome Web Store when creating your listing</li>
+                <li>Small promo (440x280) is used in the store grid view</li>
+                <li>Large promo (920x680) is used in detailed store pages</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function createPromoImage(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#4CAF50');
+            gradient.addColorStop(1, '#45a049');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Add some design elements
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.beginPath();
+            ctx.arc(width * 0.8, height * 0.2, width * 0.3, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Main icon (truck)
+            const iconSize = size === 'small' ? 80 : 120;
+            const iconX = width * 0.2;
+            const iconY = height * 0.5;
+            
+            // Truck body
+            ctx.fillStyle = 'white';
+            ctx.fillRect(iconX, iconY, iconSize * 0.8, iconSize * 0.4);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(iconX, iconY, iconSize * 0.8, iconSize * 0.4);
+            
+            // Truck cabin
+            ctx.fillStyle = 'white';
+            ctx.fillRect(iconX + iconSize * 0.6, iconY - iconSize * 0.1, iconSize * 0.3, iconSize * 0.5);
+            ctx.strokeRect(iconX + iconSize * 0.6, iconY - iconSize * 0.1, iconSize * 0.3, iconSize * 0.5);
+            
+            // Windows
+            ctx.fillStyle = '#2196F3';
+            ctx.fillRect(iconX + iconSize * 0.65, iconY - iconSize * 0.05, iconSize * 0.2, iconSize * 0.2);
+            
+            // Wheels
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(iconX + iconSize * 0.2, iconY + iconSize * 0.4, iconSize * 0.08, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(iconX + iconSize * 0.6, iconY + iconSize * 0.4, iconSize * 0.08, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Text
+            ctx.fillStyle = 'white';
+            ctx.font = size === 'small' ? 'bold 24px Arial' : 'bold 36px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('Amazon Free', iconX + iconSize * 1.1, iconY - iconSize * 0.1);
+            ctx.fillText('Shipping', iconX + iconSize * 1.1, iconY + iconSize * 0.1);
+            ctx.fillText('Highlighter', iconX + iconSize * 1.1, iconY + iconSize * 0.3);
+            
+            // Subtitle
+            ctx.font = size === 'small' ? '14px Arial' : '18px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText('Find free shipping to Israel', iconX + iconSize * 1.1, iconY + iconSize * 0.5);
+            
+            // Features
+            if (size === 'large') {
+                ctx.font = '16px Arial';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fillText('🟢 Free Shipping', width * 0.1, height * 0.8);
+                ctx.fillText('🔴 Paid Shipping', width * 0.3, height * 0.8);
+                ctx.fillText('🔵 Israel Shipping', width * 0.5, height * 0.8);
+            }
+        }
+        
+        function downloadPromo(size) {
+            const canvas = document.getElementById(size === 'small' ? 'smallPromo' : 'largePromo');
+            const link = document.createElement('a');
+            link.download = `promo-${size}-${size === 'small' ? '440x280' : '920x680'}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Create promotional images when page loads
+        window.onload = function() {
+            createPromoImage(document.getElementById('smallPromo'), 'small');
+            createPromoImage(document.getElementById('largePromo'), 'large');
+        };
+    </script>
+</body>
+</html> 
