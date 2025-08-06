@@ -1,0 +1,29 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#4CAF50" stroke="#45a049" stroke-width="4"/>
+  
+  <!-- Truck body -->
+  <rect x="20" y="70" width="60" height="25" rx="3" fill="white"/>
+  
+  <!-- Truck cabin -->
+  <rect x="70" y="75" width="25" height="20" rx="3" fill="white"/>
+  
+  <!-- Windows -->
+  <rect x="72" y="77" width="21" height="8" rx="2" fill="#2196F3"/>
+  <rect x="25" y="75" width="15" height="8" rx="2" fill="#2196F3"/>
+  
+  <!-- Wheels -->
+  <circle cx="35" cy="95" r="8" fill="#333"/>
+  <circle cx="35" cy="95" r="4" fill="#666"/>
+  <circle cx="65" cy="95" r="8" fill="#333"/>
+  <circle cx="65" cy="95" r="4" fill="#666"/>
+  
+  <!-- Free shipping text -->
+  <text x="64" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">FREE</text>
+  <text x="64" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">SHIPPING</text>
+  
+  <!-- Israel flag colors -->
+  <rect x="15" y="105" width="70" height="8" fill="#0038B8"/>
+  <rect x="15" y="113" width="70" height="8" fill="white"/>
+  <rect x="15" y="121" width="70" height="8" fill="#D01012"/>
+</svg> 

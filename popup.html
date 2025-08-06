@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 0;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header p {
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .status {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: #4CAF50;
+    }
+
+    .status-indicator.inactive {
+      background: #f44336;
+    }
+
+    .toggle-button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+
+    .toggle-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+
+    .toggle-button:active {
+      transform: translateY(0);
+    }
+
+    .toggle-button.inactive {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+    }
+
+    .info {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .info h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .info ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .info li {
+      margin-bottom: 4px;
+    }
+
+    .highlight-example {
+      display: inline-block;
+      background: rgba(76, 175, 80, 0.2);
+      border: 2px solid #4CAF50;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      margin: 0 2px;
+    }
+
+    .israel-example {
+      background: rgba(33, 150, 243, 0.2);
+      border-color: #2196F3;
+    }
+    
+    .paid-example {
+      background: rgba(244, 67, 54, 0.2);
+      border-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🚚 Free Shipping Highlighter</h1>
+    <p>Highlight products with free shipping to Israel</p>
+  </div>
+
+  <div class="status">
+    <span class="status-indicator" id="statusIndicator"></span>
+    <span id="statusText">Active</span>
+  </div>
+
+  <button class="toggle-button" id="toggleButton">
+    Disable Highlighting
+  </button>
+
+      <div class="info">
+      <h3>How it works:</h3>
+      <ul>
+        <li>Automatically scans Amazon pages for shipping information</li>
+        <li>Highlights products with <span class="highlight-example">green borders</span> for free shipping</li>
+        <li>Highlights products with <span class="highlight-example paid-example">red borders</span> for paid shipping</li>
+        <li>Special highlight for Israel shipping with <span class="highlight-example israel-example">blue borders</span></li>
+        <li>Works on cart, product, and search pages</li>
+      </ul>
+    </div>
+
+  <script src="popup.js"></script>
+</body>
+</html> 

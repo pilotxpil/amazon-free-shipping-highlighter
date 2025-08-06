@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .icon-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ccc;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chrome Extension Icon Generator</h1>
+    <p>Click the buttons below to download the icons in different sizes:</p>
+    
+    <div class="icon-container">
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <br>
+        <button onclick="downloadIcon(16)">Download 16x16</button>
+    </div>
+    
+    <div class="icon-container">
+        <canvas id="canvas48" width="48" height="48"></canvas>
+        <br>
+        <button onclick="downloadIcon(48)">Download 48x48</button>
+    </div>
+    
+    <div class="icon-container">
+        <canvas id="canvas128" width="128" height="128"></canvas>
+        <br>
+        <button onclick="downloadIcon(128)">Download 128x128</button>
+    </div>
+
+    <script>
+        // SVG content
+        const svgContent = `<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background circle -->
+            <circle cx="64" cy="64" r="60" fill="#4CAF50" stroke="#45a049" stroke-width="4"/>
+            
+            <!-- Truck body -->
+            <rect x="20" y="70" width="60" height="25" rx="3" fill="white"/>
+            
+            <!-- Truck cabin -->
+            <rect x="70" y="75" width="25" height="20" rx="3" fill="white"/>
+            
+            <!-- Windows -->
+            <rect x="72" y="77" width="21" height="8" rx="2" fill="#2196F3"/>
+            <rect x="25" y="75" width="15" height="8" rx="2" fill="#2196F3"/>
+            
+            <!-- Wheels -->
+            <circle cx="35" cy="95" r="8" fill="#333"/>
+            <circle cx="35" cy="95" r="4" fill="#666"/>
+            <circle cx="65" cy="95" r="8" fill="#333"/>
+            <circle cx="65" cy="95" r="4" fill="#666"/>
+            
+            <!-- Free shipping text -->
+            <text x="64" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">FREE</text>
+            <text x="64" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">SHIPPING</text>
+            
+            <!-- Israel flag colors -->
+            <rect x="15" y="105" width="70" height="8" fill="#0038B8"/>
+            <rect x="15" y="113" width="70" height="8" fill="white"/>
+            <rect x="15" y="121" width="70" height="8" fill="#D01012"/>
+        </svg>`;
+
+        function drawIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Create a temporary image to draw the SVG
+            const img = new Image();
+            const svgBlob = new Blob([svgContent], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, size, size);
+                URL.revokeObjectURL(url);
+            };
+            
+            img.src = url;
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Draw all icons when page loads
+        window.onload = function() {
+            drawIcon(16);
+            drawIcon(48);
+            drawIcon(128);
+        };
+    </script>
+</body>
+</html> 

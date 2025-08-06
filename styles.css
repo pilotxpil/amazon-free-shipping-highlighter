@@ -1,0 +1,166 @@
+/* Amazon Free Shipping to Israel Highlighter Styles */
+
+/* Main highlight for free shipping items */
+.freeshipping-highlight {
+  border: 3px solid #4CAF50 !important;
+  border-radius: 8px !important;
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  position: relative !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+}
+
+/* Special highlight for Israel shipping */
+.freeshipping-israel {
+  border-color: #2196F3 !important;
+  background-color: rgba(33, 150, 243, 0.1) !important;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3) !important;
+}
+
+/* Highlight for paid shipping */
+.paidshipping-highlight {
+  border: 3px solid #f44336 !important;
+  border-radius: 8px !important;
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  position: relative !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3) !important;
+}
+
+/* Hover effects */
+.freeshipping-highlight:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4) !important;
+}
+
+.freeshipping-israel:hover {
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4) !important;
+}
+
+.paidshipping-highlight:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4) !important;
+}
+
+/* Shipping badge */
+.freeshipping-badge {
+  position: absolute !important;
+  top: -10px !important;
+  left: 10px !important;
+  background: linear-gradient(135deg, #4CAF50, #45a049) !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 12px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  z-index: 1000 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  white-space: nowrap !important;
+  max-width: 200px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Special badge for Israel shipping */
+.freeshipping-israel .freeshipping-badge {
+  background: linear-gradient(135deg, #2196F3, #1976D2) !important;
+}
+
+/* Badge for paid shipping */
+.paidshipping-badge {
+  position: absolute !important;
+  top: -10px !important;
+  left: 10px !important;
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 12px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  z-index: 1000 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  white-space: nowrap !important;
+  max-width: 200px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  animation: badgePulse 2s ease-in-out infinite !important;
+}
+
+/* Badge animation */
+.freeshipping-badge, .paidshipping-badge {
+  animation: badgePulse 2s ease-in-out infinite !important;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Ensure proper positioning for different Amazon layouts */
+[data-name="Active Cart"] .freeshipping-highlight,
+.sc-list-item.freeshipping-highlight,
+[data-name="Active Cart"] .paidshipping-highlight,
+.sc-list-item.paidshipping-highlight {
+  position: relative !important;
+  margin: 8px 0 !important;
+}
+
+/* Search results styling */
+[data-component-type="s-search-result"].freeshipping-highlight,
+.s-result-item.freeshipping-highlight,
+[data-component-type="s-search-result"].paidshipping-highlight,
+.s-result-item.paidshipping-highlight {
+  position: relative !important;
+  margin: 8px 0 !important;
+}
+
+/* Product page styling */
+#dp-container.freeshipping-highlight,
+#ppd.freeshipping-highlight,
+#dp-container.paidshipping-highlight,
+#ppd.paidshipping-highlight {
+  position: relative !important;
+  padding-top: 20px !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .freeshipping-badge {
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+    top: -8px !important;
+    left: 5px !important;
+  }
+}
+
+/* Ensure badges don't interfere with Amazon's UI */
+.freeshipping-badge {
+  pointer-events: none !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .freeshipping-highlight {
+    border-width: 4px !important;
+    background-color: rgba(76, 175, 80, 0.2) !important;
+  }
+  
+  .paidshipping-highlight {
+    border-width: 4px !important;
+    background-color: rgba(244, 67, 54, 0.2) !important;
+  }
+  
+  .freeshipping-badge {
+    background: #4CAF50 !important;
+    border: 2px solid white !important;
+  }
+  
+  .paidshipping-badge {
+    background: #f44336 !important;
+    border: 2px solid white !important;
+  }
+} 
