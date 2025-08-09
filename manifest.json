@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "Highlights products with free shipping to Israel on Amazon.com",
   "permissions": [
-    "activeTab",
-    "storage"
+    "activeTab"
   ],
   "host_permissions": [
     "https://www.amazon.com/*",
