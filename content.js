@@ -4,6 +4,7 @@
 class FreeShippingHighlighter {
   constructor() {
     this.isEnabled = true;
+    this.affiliateId = 'amba0c6-20';
     this.freeShippingKeywords = [
       'free shipping',
       'free delivery',
@@ -25,7 +26,11 @@ class FreeShippingHighlighter {
 
   init() {
     console.log('Amazon Free Shipping Highlighter initialized');
+    console.log('Affiliate ID set to:', this.affiliateId);
+    this.ensureAffiliateIdInUrl();
     this.observePageChanges();
+    this.setupClickInterception();
+    this.setupPeriodicCheck();
     this.scanPage();
   }
 
@@ -40,7 +45,11 @@ class FreeShippingHighlighter {
           }
         });
         if (shouldScan) {
-          setTimeout(() => this.scanPage(), 500);
+          setTimeout(() => {
+            this.scanPage();
+            this.addAffiliateIdToLinks();
+            this.ensureAffiliateIdInUrl();
+          }, 500);
         }
       }
     });
@@ -54,6 +63,9 @@ class FreeShippingHighlighter {
   // Main scanning function
   scanPage() {
     if (!this.isEnabled) return;
+
+    // Add affiliate ID to links first
+    this.addAffiliateIdToLinks();
 
     // Check if we're on a cart page
     if (this.isCartPage()) {
@@ -247,6 +259,199 @@ class FreeShippingHighlighter {
       item.removeAttribute('data-freeshipping-checked');
     });
   }
+
+
+  // Add affiliate ID to Amazon links
+  addAffiliateIdToLinks() {
+    if (!this.affiliateId) return;
+
+    // Find all Amazon links on the page (more comprehensive selectors)
+    const amazonLinks = document.querySelectorAll(`
+      a[href*="amazon.com"],
+      a[href*="amazon.co.uk"],
+      a[href*="amazon.de"],
+      a[href*="amazon.fr"],
+      a[href*="amazon.it"],
+      a[href*="amazon.es"],
+      a[href*="amazon.ca"],
+      a[href*="amazon.com.au"],
+      a[href*="amazon.co.jp"],
+      a[href*="amazon.in"],
+      a[href*="amazon.com.br"],
+      a[href*="amazon.com.mx"]
+    `);
+    
+    amazonLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !link.hasAttribute('data-affiliate-processed')) {
+        // Mark as processed to avoid duplicate processing
+        link.setAttribute('data-affiliate-processed', 'true');
+        
+        // Check if link already has an affiliate ID
+        if (!href.includes('tag=') && !href.includes('linkCode=')) {
+          try {
+            const url = new URL(href, window.location.origin);
+            url.searchParams.set('tag', this.affiliateId);
+            link.setAttribute('href', url.toString());
+          } catch (e) {
+            // Handle relative URLs or malformed URLs
+            if (href.startsWith('/')) {
+              const url = new URL(href, 'https://www.amazon.com');
+              url.searchParams.set('tag', this.affiliateId);
+              link.setAttribute('href', url.toString());
+            }
+          }
+        }
+      }
+    });
+
+    // Also handle form actions and other elements that might contain Amazon URLs
+    this.addAffiliateIdToForms();
+    this.addAffiliateIdToDataAttributes();
+  }
+
+  // Add affiliate ID to form actions
+  addAffiliateIdToForms() {
+    const forms = document.querySelectorAll('form[action*="amazon.com"]');
+    forms.forEach(form => {
+      const action = form.getAttribute('action');
+      if (action && !action.includes('tag=') && !action.includes('linkCode=')) {
+        try {
+          const url = new URL(action, window.location.origin);
+          url.searchParams.set('tag', this.affiliateId);
+          form.setAttribute('action', url.toString());
+        } catch (e) {
+          // Handle relative URLs
+          if (action.startsWith('/')) {
+            const url = new URL(action, 'https://www.amazon.com');
+            url.searchParams.set('tag', this.affiliateId);
+            form.setAttribute('action', url.toString());
+          }
+        }
+      }
+    });
+  }
+
+  // Add affiliate ID to data attributes that might contain Amazon URLs
+  addAffiliateIdToDataAttributes() {
+    const elementsWithDataUrls = document.querySelectorAll('[data-url*="amazon.com"], [data-href*="amazon.com"]');
+    elementsWithDataUrls.forEach(element => {
+      const dataUrl = element.getAttribute('data-url') || element.getAttribute('data-href');
+      if (dataUrl && !dataUrl.includes('tag=') && !dataUrl.includes('linkCode=')) {
+        try {
+          const url = new URL(dataUrl, window.location.origin);
+          url.searchParams.set('tag', this.affiliateId);
+          if (element.hasAttribute('data-url')) {
+            element.setAttribute('data-url', url.toString());
+          }
+          if (element.hasAttribute('data-href')) {
+            element.setAttribute('data-href', url.toString());
+          }
+        } catch (e) {
+          // Handle relative URLs
+          if (dataUrl.startsWith('/')) {
+            const url = new URL(dataUrl, 'https://www.amazon.com');
+            url.searchParams.set('tag', this.affiliateId);
+            if (element.hasAttribute('data-url')) {
+              element.setAttribute('data-url', url.toString());
+            }
+            if (element.hasAttribute('data-href')) {
+              element.setAttribute('data-href', url.toString());
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Ensure affiliate ID is in the current page URL
+  ensureAffiliateIdInUrl() {
+    if (this.isAmazonUrl(window.location.href)) {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has('tag') && !url.searchParams.has('linkCode')) {
+        url.searchParams.set('tag', this.affiliateId);
+        // Update the URL without reloading the page
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+  }
+
+  // Setup click event interception to catch all Amazon link clicks
+  setupClickInterception() {
+    // Intercept clicks on the document
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      let link = target.closest('a');
+      
+      // If no link found, check if target is a link itself
+      if (!link && target.tagName === 'A') {
+        link = target;
+      }
+      
+      if (link && link.href && this.isAmazonUrl(link.href)) {
+        // Check if the link already has our affiliate ID
+        if (!link.href.includes('tag=' + this.affiliateId) && !link.href.includes('linkCode=')) {
+          event.preventDefault();
+          
+          // Add affiliate ID to the URL
+          const url = new URL(link.href);
+          url.searchParams.set('tag', this.affiliateId);
+          
+          // Navigate to the new URL
+          window.location.href = url.toString();
+        }
+      }
+    }, true); // Use capture phase to intercept before other handlers
+
+    // Also intercept form submissions
+    document.addEventListener('submit', (event) => {
+      const form = event.target;
+      if (form.action && this.isAmazonUrl(form.action)) {
+        if (!form.action.includes('tag=' + this.affiliateId) && !form.action.includes('linkCode=')) {
+          const url = new URL(form.action);
+          url.searchParams.set('tag', this.affiliateId);
+          form.action = url.toString();
+        }
+      }
+    }, true);
+  }
+
+  // Setup periodic check to ensure all Amazon links have affiliate ID
+  setupPeriodicCheck() {
+    // Check every 2 seconds for new Amazon links
+    setInterval(() => {
+      if (this.isEnabled) {
+        this.addAffiliateIdToLinks();
+        this.ensureAffiliateIdInUrl();
+      }
+    }, 2000);
+  }
+
+  // Check if a URL is an Amazon URL
+  isAmazonUrl(url) {
+    const amazonDomains = [
+      'amazon.com',
+      'amazon.co.uk',
+      'amazon.de',
+      'amazon.fr',
+      'amazon.it',
+      'amazon.es',
+      'amazon.ca',
+      'amazon.com.au',
+      'amazon.co.jp',
+      'amazon.in',
+      'amazon.com.br',
+      'amazon.com.mx'
+    ];
+    
+    try {
+      const urlObj = new URL(url);
+      return amazonDomains.some(domain => urlObj.hostname.includes(domain));
+    } catch (e) {
+      return false;
+    }
+  }
+
 }
 
 // Initialize the highlighter when DOM is ready
