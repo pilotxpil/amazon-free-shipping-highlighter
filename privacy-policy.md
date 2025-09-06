@@ -1,9 +1,9 @@
 # Privacy Policy for Amazon Free Shipping to Israel Highlighter
 
-**Last updated:** December 2024
+**Last updated:** January 2025
 
 ## Overview
-Amazon Free Shipping to Israel Highlighter is a Chrome extension that helps users identify products with free shipping on Amazon.com. This privacy policy explains how we handle your data.
+Amazon Free Shipping to Israel Highlighter is a Chrome extension that helps users identify products with free shipping on Amazon.com and automatically adds affiliate tracking to Amazon links. This privacy policy explains how we handle your data.
 
 ## Data Collection
 **We do not collect, store, or transmit any personal data.**
@@ -19,22 +19,33 @@ Amazon Free Shipping to Israel Highlighter is a Chrome extension that helps user
 ### What We Do:
 - The extension only operates on Amazon.com domains
 - It scans page content locally in your browser to identify shipping information
-- No data leaves your browser
-- No analytics or tracking is performed
+- **Affiliate Tracking**: Automatically adds affiliate ID "amba0c6-20" to Amazon links
+- No data leaves your browser (except for affiliate tracking via Amazon)
+- No analytics or tracking is performed by us
 
 ## How the Extension Works
 1. **Local Processing**: All analysis happens in your browser
 2. **No Server Communication**: The extension doesn't connect to any external servers
 3. **No Data Storage**: We don't store any information about your browsing or shopping
 4. **Amazon Only**: The extension only activates on Amazon.com pages
+5. **Affiliate Links**: Automatically modifies Amazon URLs to include our affiliate ID for commission tracking
 
 ## Third-Party Services
-- **No third-party services** are used
-- **No external APIs** are called
-- **No analytics tools** are integrated
+- **Amazon Affiliate Program**: The extension participates in Amazon's affiliate program
+- **No external APIs** are called by our extension
+- **No analytics tools** are integrated by us
+- **Amazon Tracking**: Amazon may track purchases made through affiliate links for commission purposes
 
 ## Data Sharing
-**We do not share any data** because we don't collect any data in the first place.
+**We do not share any data** because we don't collect any data in the first place. However, when you click Amazon links modified by our extension, Amazon may receive information about your purchase for affiliate commission tracking purposes.
+
+## Affiliate Program Disclosure
+This extension participates in Amazon's affiliate program. When you use this extension:
+
+- **Automatic Link Modification**: All Amazon links you click will automatically include our affiliate ID "amba0c6-20"
+- **Commission Tracking**: Amazon tracks purchases made through these links for commission purposes
+- **No Additional Cost**: This does not increase the price you pay for Amazon products
+- **Transparency**: This affiliate relationship helps support the development and maintenance of this free extension
 
 ## Your Rights
 Since we don't collect personal data, there's no personal information to access, modify, or delete.
