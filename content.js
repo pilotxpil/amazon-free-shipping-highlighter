@@ -112,9 +112,16 @@ class FreeShippingHighlighter {
   scanProductPage() {
     console.log('Scanning product page for free shipping');
     
-    const productContainer = document.querySelector('#dp-container, #ppd');
-    if (productContainer) {
-      this.checkItemForFreeShipping(productContainer, 'product-page');
+    // Look for the product details section with a-box-group class
+    const productDetailsContainer = document.querySelector('.a-box-group');
+    if (productDetailsContainer) {
+      this.checkItemForFreeShipping(productDetailsContainer, 'product-page');
+    } else {
+      // Fallback to other product containers if a-box-group is not found
+      const productContainer = document.querySelector('#dp-container, #ppd, #centerCol');
+      if (productContainer) {
+        this.checkItemForFreeShipping(productContainer, 'product-page');
+      }
     }
   }
 
@@ -139,6 +146,12 @@ class FreeShippingHighlighter {
     item.setAttribute('data-freeshipping-checked', 'true');
 
     const itemText = item.textContent.toLowerCase();
+    
+    // Debug logging for product pages
+    if (itemId === 'product-page') {
+      console.log('Checking product page for shipping info...');
+      console.log('Item text preview:', itemText.substring(0, 200) + '...');
+    }
     const hasFreeShipping = this.freeShippingKeywords.some(keyword => 
       itemText.includes(keyword)
     );
@@ -164,29 +177,64 @@ class FreeShippingHighlighter {
     );
 
     // Check for shipping information in specific elements
-    const shippingElements = item.querySelectorAll('.a-text-bold, .a-size-base, .a-color-secondary, [data-testid="shipping-info"]');
+    // For product pages, focus on shipping-related sections
+    const shippingSelectors = [
+      '.a-box-group', // Product details box
+      '[data-testid="shipping-info"]', // Shipping info test ID
+      '.a-section', // Amazon sections
+      '.a-text-bold', // Bold text elements
+      '.a-size-base', // Base size text
+      '.a-color-secondary', // Secondary color text
+      '#delivery-block', // Delivery block
+      '.delivery-block', // Delivery block class
+      '.shipping-info', // Shipping info class
+      '.a-box-information' // Information boxes
+    ];
+    
+    const shippingElements = item.querySelectorAll(shippingSelectors.join(', '));
     let foundFreeShipping = hasFreeShipping;
     let foundIsraelShipping = hasIsraelShipping;
     let foundPaidShipping = hasPaidShipping;
 
     shippingElements.forEach(element => {
       const elementText = element.textContent.toLowerCase();
-      if (this.freeShippingKeywords.some(keyword => elementText.includes(keyword))) {
-        foundFreeShipping = true;
-      }
-      if (this.israelKeywords.some(keyword => elementText.includes(keyword))) {
-        foundIsraelShipping = true;
-      }
-      if (paidShippingKeywords.some(keyword => elementText.includes(keyword))) {
-        foundPaidShipping = true;
+      
+      // Only consider elements that actually contain shipping-related keywords
+      const hasShippingContext = this.freeShippingKeywords.some(keyword => elementText.includes(keyword)) ||
+                                this.israelKeywords.some(keyword => elementText.includes(keyword)) ||
+                                paidShippingKeywords.some(keyword => elementText.includes(keyword));
+      
+      if (hasShippingContext) {
+        if (this.freeShippingKeywords.some(keyword => elementText.includes(keyword))) {
+          foundFreeShipping = true;
+        }
+        if (this.israelKeywords.some(keyword => elementText.includes(keyword))) {
+          foundIsraelShipping = true;
+        }
+        if (paidShippingKeywords.some(keyword => elementText.includes(keyword))) {
+          foundPaidShipping = true;
+        }
       }
     });
 
+    // Debug logging for product pages
+    if (itemId === 'product-page') {
+      console.log('Shipping detection results:');
+      console.log('- Found free shipping:', foundFreeShipping);
+      console.log('- Found Israel shipping:', foundIsraelShipping);
+      console.log('- Found paid shipping:', foundPaidShipping);
+    }
+
     // Highlight based on shipping status
-    if (foundFreeShipping) {
+    // Be more conservative - only highlight if we're confident
+    if (foundFreeShipping && !foundPaidShipping) {
       this.highlightItem(item, itemId, foundIsraelShipping, 'free');
-    } else if (foundPaidShipping) {
+    } else if (foundPaidShipping && !foundFreeShipping) {
       this.highlightItem(item, itemId, false, 'paid');
+    } else if (foundFreeShipping && foundPaidShipping) {
+      // If both are found, prioritize free shipping but note the conflict
+      console.log('Conflicting shipping info detected - prioritizing free shipping');
+      this.highlightItem(item, itemId, foundIsraelShipping, 'free');
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Amazon Free Shipping to Israel Highlighter",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Highlights products with free shipping to Israel on Amazon.com and automatically adds affiliate ID to Amazon links",
   "permissions": [
     "activeTab"
