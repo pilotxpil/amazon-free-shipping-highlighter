@@ -4,7 +4,7 @@
 class FreeShippingHighlighter {
   constructor() {
     this.isEnabled = true;
-    this.affiliateId = 'amba0c6-20';
+    this.affiliateId = 'ambaco-20';
     this.freeShippingKeywords = [
       'free shipping',
       'free delivery',

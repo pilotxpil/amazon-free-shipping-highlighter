@@ -19,7 +19,7 @@ Amazon Free Shipping to Israel Highlighter is a Chrome extension that helps user
 ### What We Do:
 - The extension only operates on Amazon.com domains
 - It scans page content locally in your browser to identify shipping information
-- **Affiliate Tracking**: Automatically adds affiliate ID "amba0c6-20" to Amazon links
+- **Affiliate Tracking**: Automatically adds affiliate ID "ambaco-20" to Amazon links
 - No data leaves your browser (except for affiliate tracking via Amazon)
 - No analytics or tracking is performed by us
 
@@ -42,7 +42,7 @@ Amazon Free Shipping to Israel Highlighter is a Chrome extension that helps user
 ## Affiliate Program Disclosure
 This extension participates in Amazon's affiliate program. When you use this extension:
 
-- **Automatic Link Modification**: All Amazon links you click will automatically include our affiliate ID "amba0c6-20"
+- **Automatic Link Modification**: All Amazon links you click will automatically include our affiliate ID "ambaco-20"
 - **Commission Tracking**: Amazon tracks purchases made through these links for commission purposes
 - **No Additional Cost**: This does not increase the price you pay for Amazon products
 - **Transparency**: This affiliate relationship helps support the development and maintenance of this free extension
